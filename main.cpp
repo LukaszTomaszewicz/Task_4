@@ -4,7 +4,9 @@ int main(int argc, char * argv[])
 {
     if(argc >3 && argc < 2)
     {
-        cerr << " Provided wrong number of args! " << endl;
+        openLog();
+        writeLog("Provided wrong number of args!");
+        closeLog();
         exit(1);
     }
     readFile(argv[1], argv[2]);
