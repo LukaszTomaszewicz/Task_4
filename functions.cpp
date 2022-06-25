@@ -18,10 +18,12 @@ void readFile(string path1, string path2)
     else
     {
       openLog();
+      berResults results;
       writeLog("Processing...");
+      results = compareBits(path1, path2, diff);
       if(diff)
       {
-          // function to print ber
+          printDiffs(results);
       }
       else
       {
@@ -42,4 +44,56 @@ uint8_t hammingDistance(uint8_t n1, uint8_t n2)
         x >>= 1;
     }
     return setBits;
+}
+
+// based on example project
+berResults compareBits(string path1, string path2, bool &diff)
+{
+    ifstream file1(path1, std::ios::binary | std::ios::in);
+    ifstream file2(path2, std::ios::binary | std::ios::in);
+    berResults results;
+    results.t1 = 0;
+    results.t2 = 0;
+    results.ber = 0;
+    results.err = 0;
+    results.tot = 0;
+
+    writeLog("Calculating BER...");
+    char a = 0x00;
+    char b = 0x00;
+    results.t1 = clock();
+
+    while (!file1.eof())
+    {
+        file1 >> a; //read 1 char from file 1
+        file2 >> b; //read 1 char from file 2
+        if (!file1.eof()) // till the end of the 1st file
+        {
+            results.err += hammingDistance(a, b); //add to the .err the number of different bits
+            results.tot += 8; //add to the .tot the number of compared bits
+        }
+    }
+
+    results.ber = (float)results.err / results.tot; // calculate ber
+    results.t2 = clock();
+    writeLog("BER calculations are done");
+    if(results.err > 0)
+    {
+        diff = true;
+    }
+    file1.close();
+    file2.close();
+    return results; //return structure with all results
+}
+
+// from project example
+void printDiffs(berResults results)
+{
+    std::stringstream message;
+    message << "Results are: " << std::endl;
+    message << "BER: " << results.ber << std::endl;
+    message << "Tot: " << results.tot << std::endl;
+    message << "Err: " << results.err << std::endl;
+    message << "Calc time: " << ((float)results.t2 - results.t1) / CLOCKS_PER_SEC << " sec " << std::endl;
+    writeLog(message.str());
 }
