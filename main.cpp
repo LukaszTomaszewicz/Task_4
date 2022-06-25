@@ -2,6 +2,8 @@
 
 int main(int argc, char * argv[])
 {
+    // createFile1("0x55_100BFile.bin",100,0x55);
+
     if(argc >3 && argc < 2)
     {
         openLog();

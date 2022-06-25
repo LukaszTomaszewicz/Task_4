@@ -97,3 +97,33 @@ void printDiffs(berResults results)
     message << "Calc time: " << ((float)results.t2 - results.t1) / CLOCKS_PER_SEC << " sec " << std::endl;
     writeLog(message.str());
 }
+
+// function based on project example, create desired bins, if the provided value is other than 0x55
+// and file size is set to 100 B then first 5 chars are set to 0x56, so 10 bits are different than when u would insert just 0x55 values  
+void createFile1(const std::string name, const int count, char value)
+{
+    char value1 = 0x55;
+    bool dif = false;
+    if (value != 0x55 && count == 100)
+    {
+        value = 0x56;
+        dif = true;
+        value ^= value1;
+        value1 ^= value;
+        value ^= value1;
+    }
+    std::fstream f;
+    f.open(name.c_str(), std::ios::binary | std::ios::out);
+    for (int i = 0; i < count; i++)
+    {
+        if(dif && i < 5)
+        {
+            f.write((char*)&value1,1);
+        }
+        else
+        {
+            f.write((char*)&value,1);
+        }
+    }
+    f.close();
+}

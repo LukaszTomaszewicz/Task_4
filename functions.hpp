@@ -29,3 +29,4 @@ void closeLog();
 uint8_t hammingDistance(uint8_t n1, uint8_t n2);
 berResults compareBits(string path1, string path2, bool &diff);
 void printDiffs(berResults results);
+void createFile1(const std::string name, const int count, char value);
