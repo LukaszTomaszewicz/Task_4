@@ -12,6 +12,16 @@ using std::ifstream;
 using std::fstream;
 using std::filesystem::file_size;
 
+// from example project
+struct berResults
+{
+  double tot; //total number of bits
+  double err; //error bits (different bits)
+  float ber;  //ber calc result
+  clock_t t1; //calc start time
+  clock_t t2; //calc stop time
+};
+
 void readFile(string path1, string path2);
 void writeLog(string log);
 void openLog();
