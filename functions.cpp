@@ -2,6 +2,7 @@
 
 void readFile(string path1, string path2)
 {
+    openLog();
     uint fileSize1{0};
     uint fileSize2{0};
     bool diff { 0 };
@@ -11,13 +12,10 @@ void readFile(string path1, string path2)
 
     if(fileSize2 != fileSize1)
     {
-      openLog();
       writeLog("Size of provided files is different!");
-      closeLog();
     }
     else
     {
-      openLog();
       berResults results;
       writeLog("Processing...");
       results = compareBits(path1, path2, diff);
@@ -29,8 +27,8 @@ void readFile(string path1, string path2)
       {
           writeLog("No differences found");
       }
-      closeLog();
     }
+    closeLog();
 }
 
 // from example project

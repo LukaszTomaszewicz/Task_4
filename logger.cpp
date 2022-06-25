@@ -17,12 +17,13 @@ void writeLog(string log)
   std::cout.flush();
 }
 
-void openLog()
+void openLog(string filename)
 {
+  f.open(filename.c_str(), std::ios_base::app);
   f.open("log.log", std::fstream::out);
   if(!f.is_open())
   {
-      cerr << "Unable to open log file";
+      cerr << "Unable to open log file\n";
   }
 }
 
@@ -30,7 +31,7 @@ void closeLog()
 {
   if(f.is_open())
   {
-      writeLog("Closing log file");
+      writeLog("Closing log file\n*************************\n\n");
       f.close();
   }
   else
